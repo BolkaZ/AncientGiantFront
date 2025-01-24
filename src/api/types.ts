@@ -15,7 +15,7 @@ export type TPeriod = {
     name: string,
     start: string,
     end: string,
-    image: string | null
+    image?: string | null
 }
 
 export type TPeriodDetails = TPeriod & {

@@ -25,6 +25,8 @@ export const BreadCrumbs = () => {
   
       if(pathes[0] === '' && pathes[1] === '') {
         pathes.shift()
+        pathes.shift()
+
       }
   
       const breadcrumbTemp: any[] = []
@@ -46,12 +48,15 @@ export const BreadCrumbs = () => {
   
 
     return (
-        <Breadcrumb>
-            {breadcrumb.map((item, index) => (
-                    <Breadcrumb.Item key={item.title} active={!item.link} href={item.link !== undefined ? item.link : ''}>
-                            <span>{item.title}</span>
-                    </Breadcrumb.Item>
-            ))}
-        </Breadcrumb>
+      <>
+        {breadcrumb.length !== 0 && <Breadcrumb>
+          {breadcrumb.map((item) => (
+            <Breadcrumb.Item key={item.title} active={!item.link} href={item.link !== undefined ? item.link : ''}>
+              <span>{item.title}</span>
+            </Breadcrumb.Item>
+          ))}
+        </Breadcrumb>}
+      </>
+
     )
 }
