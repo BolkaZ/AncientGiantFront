@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Breadcrumb } from "react-bootstrap";
-import { useLocation } from "react-router-dom";
+import {Link, useLocation} from 'react-router-dom';
 
   export type TBreadcrumbsItem = {
     title: string;
@@ -46,13 +45,22 @@ export const BreadCrumbs = () => {
 
     return (
       <>
-        {breadcrumb.length !== 0 && <Breadcrumb>
-          {breadcrumb.map((item) => (
-            <Breadcrumb.Item key={item.title} active={!item.link} href={item.link !== undefined ? item.link : ''}>
-              <span>{item.title}</span>
-            </Breadcrumb.Item>
+        {breadcrumb.length !== 0 && <ol className={'d-flex gap-1 breadcrumb'}>
+          {breadcrumb.map((item, index) => (
+            <>
+            {index >= 1 && (
+              <li key={index} >
+                <span> / </span>
+              </li>
+            )}
+              {'link' in item && item.link !== undefined ? (
+                <Link to={item.link}>{item.title}</Link>
+              ) : (
+                <span style={{opacity: 0.6}}>{item.title}</span>
+              )}
+            </>
           ))}
-        </Breadcrumb>}
+        </ol>}
       </>
 
     )

@@ -1,1 +1,11 @@
 @import "bootstrap/scss/bootstrap.scss";
+
+a {
+  color: var(--bs-nav-link-color) !important;
+  text-decoration: none  !important;
+}
+
+a:hover {
+  color: var(--bs-nav-link-hover-color) !important;
+  text-decoration: none  !important;
+}
