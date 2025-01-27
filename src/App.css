@@ -5,3 +5,8 @@
   margin: 0 auto;
   gap: 30px;
 }
+
+#root {
+  background-color: #f1efda;
+  min-height: 100vh;
+}

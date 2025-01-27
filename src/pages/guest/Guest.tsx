@@ -23,15 +23,15 @@ export const GuestPage = () => {
         </div>
 
         {/* Main Content */}
-        <Container className="my-3">
+        <Container className="p-5">
             <h2 id="about" className="text-center">Что такое палеонтология?</h2>
             <p className="text-center">
                 Палеонтология — это наука, изучающая историю жизни на Земле через
                 ископаемые останки.
             </p>
 
-            <Row className="mt-4">
-                <Col md={4}>
+            <Row className="gap-4">
+                <Col>
                     <Card>
                         <Card.Body>
                             <Card.Title>Древние существа</Card.Title>
@@ -41,7 +41,7 @@ export const GuestPage = () => {
                         </Card.Body>
                     </Card>
                 </Col>
-                <Col md={4}>
+                <Col>
                     <Card>
                         <Card.Body>
                             <Card.Title>Ископаемые</Card.Title>
@@ -51,7 +51,7 @@ export const GuestPage = () => {
                         </Card.Body>
                     </Card>
                 </Col>
-                <Col md={4}>
+                <Col>
                     <Card>
                         <Card.Body>
                             <Card.Title>Эволюция</Card.Title>

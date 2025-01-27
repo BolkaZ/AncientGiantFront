@@ -2,9 +2,6 @@ import { useEffect, useState } from "react";
 import { Breadcrumb } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 
-
-
-  
   export type TBreadcrumbsItem = {
     title: string;
     link?: string;
