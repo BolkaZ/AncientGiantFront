@@ -1,0 +1,19 @@
+{
+  "name": "AncientGiantFront",
+  "short_name": "AncientGiantFront",
+  "start_url": "/AncientGiantFront/",
+  "display": "standalone",
+  "background_color": "#f1efda",
+  "theme_color": "#efeeec",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "brontosaurus-192.png",
+      "type": "image/png", "sizes": "192x192"
+    },
+    {
+      "src": "brontosaurus.png",
+      "type": "image/png", "sizes": "512x512"
+    }
+  ]
+}
