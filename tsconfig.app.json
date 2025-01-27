@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "types": [
+      "vite-plugin-pwa/info.d.ts",
+      "vite-plugin-pwa/client.d.ts"
+    ],
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2020",
     "useDefineForClassFields": true,
