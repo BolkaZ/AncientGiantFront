@@ -19,7 +19,8 @@ const periodSlice = createSlice({
     getMockPeriod(state,action:PayloadAction<number>) {
       state.period = mockPeriodsDetail.find(period => period.id === action.payload) ?? null;
     }
-  },
+  }
+
 })
 
 export default periodSlice.reducer;

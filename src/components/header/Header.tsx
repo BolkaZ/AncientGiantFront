@@ -1,8 +1,6 @@
-import {Nav, Navbar} from 'react-bootstrap'
+import {Button, Nav, Navbar} from 'react-bootstrap'
 import {Link, useLocation} from 'react-router-dom'
 import { staticLinks } from "../../config/router-config"
-import {LoginModal} from '../login-modal/Login.tsx';
-import {RegistrationModal} from '../registration-modal/Registration.tsx';
 import clsx from 'clsx';
 
 export const Header = () => {
@@ -23,11 +21,10 @@ export const Header = () => {
                     <Link className={getClassesLink(staticLinks.CATALOG)} to={staticLinks.CATALOG}>Каталог</Link>
                 </Nav.Item>
             </Nav>
-            <RegistrationModal />
-            <LoginModal />
+            <Link to={staticLinks.AUTHORIZATION}><Button variant='info'>Войти</Button></Link>
+            <Link to={staticLinks.AUTHORIZATION}><Button variant='link'>Регистрация</Button></Link>
         </Navbar.Collapse>
     </Navbar>
     )
-
 }
 

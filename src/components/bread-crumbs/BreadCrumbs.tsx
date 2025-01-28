@@ -14,6 +14,8 @@ export const BreadCrumbs = () => {
     const breadCrumbByPath: {[key: string]:string} =  {
       ['']: 'Главная',
       ['catalog']: 'Каталог',
+      ['registration']: 'Регистрация',
+      ['authorization']: 'Авторизация',
     }
   
     useEffect(()=> {
