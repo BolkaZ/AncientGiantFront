@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {mockPeriods, mockPeriodsDetail} from '../../api/mock.ts';
+import {mockPeriods} from '../../api/mock.ts';
 import { api } from '../../api';
 import { RequestParams } from '../../api/Api.ts';
 import { TBidInfo, TPeriod, TPeriodGet } from '../../api/types.ts';

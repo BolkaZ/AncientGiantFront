@@ -2,12 +2,13 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit"
 import filterSlice from "./filterSlice"
 import periodSlice from './periodSlice';
 import periodsSlice from './periodCollectionSlice'
-
+import userSlice from './userSlice';
 
 const rootReducer = combineReducers({
   filter: filterSlice,
   period: periodSlice,
   periodCollection: periodsSlice,
+  user: userSlice
 })
 
 

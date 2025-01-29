@@ -1,11 +1,22 @@
 import {Button, Nav, Navbar} from 'react-bootstrap'
-import {Link, useLocation} from 'react-router-dom'
+import {Link, useLocation, useNavigate} from 'react-router-dom'
 import { staticLinks } from "../../config/router-config"
 import clsx from 'clsx';
+import {useAppDispatch, useAppSelector} from '../../hooks/redux.ts';
+import {logout} from '../../store/userSlice';
 
 export const Header = () => {
 
     const location = useLocation()
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+
+    const {isAuthenticated, user} = useAppSelector(state => state.user);
+
+    const onLogout = () => {
+        dispatch(logout());
+        navigate(staticLinks.AUTHORIZATION)
+    }
 
     const getClassesLink = (path: string) =>  clsx('nav-link', {['active']: location.pathname === path})
     return(
@@ -21,8 +32,12 @@ export const Header = () => {
                     <Link className={getClassesLink(staticLinks.CATALOG)} to={staticLinks.CATALOG}>Каталог</Link>
                 </Nav.Item>
             </Nav>
-            <Link to={staticLinks.AUTHORIZATION}><Button variant='info'>Войти</Button></Link>
-            <Link to={staticLinks.AUTHORIZATION}><Button variant='link'>Регистрация</Button></Link>
+            {!isAuthenticated
+              ? (<> <Link to={staticLinks.AUTHORIZATION}><Button variant='info'>Войти</Button></Link>
+                <Link to={staticLinks.AUTHORIZATION}><Button variant='link'>Регистрация</Button></Link></>)
+              : (<> {user?.username} <Button onClick={onLogout} variant='outline-danger'>Выйти</Button>
+                  </>)
+            }
         </Navbar.Collapse>
     </Navbar>
     )
