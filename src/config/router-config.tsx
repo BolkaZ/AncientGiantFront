@@ -3,7 +3,7 @@ import { DetailPage } from "../pages/catalog/detail/Detail";
 import { GuestPage } from "../pages/guest/Guest";
 import {AuthorizationPage} from '../pages/user/authorization/AuthorizationPage.tsx';
 import {RegistrationPage} from '../pages/user/registration/AuthorizationPage.tsx';
-import {UserBidsPage} from '../pages/user/bids/UserBidsPage.tsx';
+import {UserBidListPage} from '../pages/user/bids/UserBidsPage.tsx';
 
 
 type TRoute = {
@@ -52,7 +52,7 @@ const registrationRoute: TRoute = {
 
 const userBidsRoute: TRoute = {
   path: staticLinks.USER_BIDS,
-  element: <UserBidsPage />
+  element: <UserBidListPage />
 }
 
 export const routes: TRoute[] = [

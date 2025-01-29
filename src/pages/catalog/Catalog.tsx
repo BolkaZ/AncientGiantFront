@@ -18,7 +18,7 @@ export const CatalogPage = () => {
 
     const filter = useAppSelector(state => state.filter)
 
-    const {periods, loading, bidInfo} = useAppSelector(state=> state.periodCollection);
+    const {periods, loading, bidInfo, error} = useAppSelector(state=> state.periodCollection);
 
     useEffect(()=>{
         const filterKeys: (keyof TFilterState)[] = Object.keys(filter) as (keyof TFilterState)[];
@@ -83,7 +83,7 @@ export const CatalogPage = () => {
 
         <Row title={'Каталог'} className="position-relative d-flex flex-row mb-3 gap-3 justify-content-center">
             {loading && <div className={styles.loadingBg}><Spinner animation="border"/></div>}
-            {periods.length === 0 && <Alert variant='danger'>Ничего не найдено!</Alert>}
+            {periods.length === 0 && !loading && error &&  <Alert variant='danger'>Ничего не найдено!</Alert>}
             {periods.map((item)=>{
                 return <PeriodCard item={item} />
             })}
