@@ -17,8 +17,7 @@ export const RegistrationPage = () => {
   const navigate = useNavigate();
   const { isAuthenticated, loading, error } = useAppSelector(state => state.user);
 
-  const onSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const onSubmit = async () => {
 
     if (username && password) {
       const userData: UserCreateInput = {
