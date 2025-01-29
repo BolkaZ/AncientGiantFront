@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { TPeriod } from "../../api/types"
-import { getPeriodCollection } from "../../api/endpoints/apiPeriodCollection"
 import { useSearchParams} from 'react-router-dom'
 import { mockPeriods } from "../../api/mock"
 import {PeriodCard} from '../../components/product-card/PeriodCard.tsx';
@@ -11,14 +10,15 @@ import { useDebouncedCallback} from 'use-debounce';
 import {useAppDispatch, useAppSelector} from '../../hooks/redux.ts';
 import {changeEndDate, changeName, changeStartDate} from '../../store/filterSlice';
 import {TFilterState} from '../../store/filterSlice/types.ts';
+import { fetchPeriodCollection } from "../../store/periodCollectionSlice/index.ts";
 
 export const CatalogPage = () => {
-    const [periods, setPeriods] = useState<TPeriod[]>(mockPeriods)
-    const [loading, setLoading] = useState(false)
     const [searchParams, setSearchParams] = useSearchParams();
     const dispatch = useAppDispatch();
 
     const filter = useAppSelector(state => state.filter)
+
+    const {periods, loading, bidInfo} = useAppSelector(state=> state.periodCollection);
 
     useEffect(()=>{
         const filterKeys: (keyof TFilterState)[] = Object.keys(filter) as (keyof TFilterState)[];
@@ -36,14 +36,8 @@ export const CatalogPage = () => {
         getData()
     },[filter])
     const getData =useDebouncedCallback( async () => {
-        setLoading(true)
-        const response = await getPeriodCollection(searchParams.toString());
-        if('data' in response) {
-            setPeriods(response.data.periods)
-        } else {
-            setPeriods(mockPeriods)
-        }
-        setLoading(false)
+        dispatch(fetchPeriodCollection({search: filter.name}));
+    
     }, 300)
 
 

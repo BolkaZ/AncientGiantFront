@@ -10,7 +10,7 @@ export const PeriodCard =({item}: {item: TPeriod}) => {
   const navigate = useNavigate();
 
   return (<Card onClick={()=>navigate(dynamicLinks.catalogDetail(item.id))} className={'p-0'} style={{maxWidth:' 250px',borderColor: '#753526', backgroundColor:'#efeeec'}}>
-  <Card.Img style={{objectFit: 'cover', maxWidth: 250, width: '100%'}} height={200}  variant='top' src={item.image ?? Plug} />
+  <Card.Img style={{objectFit: 'cover', maxWidth: 250, width: '100%'}} height={200}  variant='top' src={item.image?.length === 0 || !item.image ? Plug : item?.image} />
   <Card.Body>
     <Card.Title>{item.name}</Card.Title>
     <Card.Subtitle>Начало:{item.start}</Card.Subtitle>

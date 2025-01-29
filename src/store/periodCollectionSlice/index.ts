@@ -1,16 +1,31 @@
-import { createSlice, PayloadAction} from '@reduxjs/toolkit';
-import { TPeriodShort} from './types.ts';
+import { createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {mockPeriods, mockPeriodsDetail} from '../../api/mock.ts';
+import { api } from '../../api';
+import { RequestParams } from '../../api/Api.ts';
+import { TBidInfo, TPeriod, TPeriodGet } from '../../api/types.ts';
 
-const initialState: {periods: TPeriodShort[]}  = {
+const initialState: {periods: TPeriod[], loading: boolean, error: string | null, bidInfo: TBidInfo}  = {
   periods: [],
+  loading: false,
+  error: null,
+  bidInfo: {} as TBidInfo
 }
+
+export const fetchPeriodCollection = createAsyncThunk(
+  '/periods/get/',
+  async (query?: { search?: string; }, params?: RequestParams) => {
+    const response = await api.periods.periodList(query, params);
+    if( 'data' in response) {
+      return response.data as TPeriodGet
+    }
+  }
+)
 
 const periodsSlice = createSlice({
   name: 'periods',
   initialState,
   reducers: {
-    changePeriod (state, action: PayloadAction<TPeriodShort>) {
+    changePeriod (state, action: PayloadAction<TPeriod[]>) {
       state.periods = action.payload;
     },
     clearPeriod (state) {
@@ -19,18 +34,19 @@ const periodsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getPeriods.pending, (state) => {
+      .addCase(fetchPeriodCollection.pending, (state) => {
         state.loading = true;
       })
-      .addCase(getPeriods.fulfilled, (state, action) => {
+      .addCase(fetchPeriodCollection.fulfilled, (state, action) => {
         state.loading = false;
-        state.cities = action.payload.cities;
+        if(action.payload?.periods) {
+          state.periods = action.payload?.periods;
+        }
       })
-      .addCase(getPeriods.rejected, (state) => {
+      .addCase(fetchPeriodCollection.rejected, (state,action) => {
         state.loading = false;
-        state.cities = mockPeriods.cities.filter((item) =>
-          item.name.toLocaleLowerCase().startsWith(state.searchValue.toLocaleLowerCase())
-        );
+        state.periods = mockPeriods;
+        state.error = action.error.message || 'Ошибка призагрузке данных';
       });
   },
 

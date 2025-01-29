@@ -18,6 +18,11 @@ export type TPeriod = {
     image?: string | null
 }
 
+export type TPeriodGet = {
+    periods: TPeriod[];
+    bid_info: TBidInfo;
+}
+
 export type TPeriodDetails = TPeriod & {
     detail_text: string;
 }
@@ -25,4 +30,5 @@ export type TPeriodDetails = TPeriod & {
 export type TBidInfo = {
     bid_id: number;
     count_of_periods: number;
+    detail: string
 }
