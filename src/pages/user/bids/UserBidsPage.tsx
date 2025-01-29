@@ -10,7 +10,7 @@ export const UserBidListPage = () => {
   const navigate = useNavigate();
 
   const { bids, loading, error } = useAppSelector(state => state.bids);
-  const {isAuthenticated, user} = useAppSelector(state => state.user);
+  const {isAuthenticated} = useAppSelector(state => state.user);
 
   useEffect(() => {
     if(!isAuthenticated) {

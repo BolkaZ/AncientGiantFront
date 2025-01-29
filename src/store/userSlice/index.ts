@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { api } from '../../api';
-import { UserList, UserLoginInput, UserCreateInput } from '../../api/Api.ts';
+import { UserList, UserLoginInput, UserCreateInput, UserUpdateInput } from '../../api/Api.ts';
 
 export type TUser = UserList;
 
@@ -43,6 +43,23 @@ export const userRegister = createAsyncThunk('user/register', async (data: UserC
     throw error; // Выбросим ошибку, чтобы она была обработана в extraReducers
   }
 });
+
+// Функция для обновления данных пользователя
+export const userUpdate = createAsyncThunk<TUser, { userId: string; data: UserUpdateInput }>(
+  'user/update',
+  async ({ userId, data }, { rejectWithValue }) => {
+    try {
+      const response = await api.users.userUpdate(userId, data);
+      if ('data' in response) {
+        return response.data as TUser;
+      }
+      throw new Error('Failed to update user');
+    } catch (error) {
+      console.error('Update user failed:', error);
+      return rejectWithValue(error.message || 'Failed to update user');
+    }
+  }
+);
 
 const getAuthDataFromLocalStorage = () => {
   const savedAuth = localStorage.getItem('auth_data');
@@ -120,6 +137,21 @@ const authSlice = createSlice({
       .addCase(userRegister.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Registration failed';
+      })
+      // Update User
+      .addCase(userUpdate.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(userUpdate.fulfilled, (state, action: PayloadAction<TUser>) => {
+        state.user = action.payload;
+        state.loading = false;
+        state.error = null;
+        setAuthDataToLocalStorage(state); // Обновляем данные в localStorage после успешного обновления
+      })
+      .addCase(userUpdate.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Update failed';
       });
   },
 });

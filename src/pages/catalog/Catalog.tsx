@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react"
-import { TPeriod } from "../../api/types"
+import { useEffect } from "react"
 import { useSearchParams} from 'react-router-dom'
-import { mockPeriods } from "../../api/mock"
 import {PeriodCard} from '../../components/product-card/PeriodCard.tsx';
 import {Alert, Container, Form, InputGroup, Row, Spinner} from 'react-bootstrap';
 
@@ -18,7 +16,7 @@ export const CatalogPage = () => {
 
     const filter = useAppSelector(state => state.filter)
 
-    const {periods, loading, bidInfo, error} = useAppSelector(state=> state.periodCollection);
+    const {periods, loading, error} = useAppSelector(state=> state.periodCollection);
 
     useEffect(()=>{
         const filterKeys: (keyof TFilterState)[] = Object.keys(filter) as (keyof TFilterState)[];
