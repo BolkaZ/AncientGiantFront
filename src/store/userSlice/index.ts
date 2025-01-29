@@ -1,8 +1,8 @@
-import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {api} from '../../api';
-import { UserList, UserLoginInput} from '../../api/Api.ts';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { api } from '../../api';
+import { UserList, UserLoginInput, UserCreateInput } from '../../api/Api.ts';
 
-export type TUser = UserList
+export type TUser = UserList;
 
 interface AuthState {
   isAuthenticated: boolean;
@@ -11,16 +11,42 @@ interface AuthState {
   error: string | null;
 }
 
-export const userAuth = createAsyncThunk('user/auth', async (data: UserLoginInput)=>{
-  const response = await api.login.userLogin(data, {withCredentials: true})
-  if('data' in response){
-    return response.data as TUser
+// Функция для авторизации пользователя
+export const userAuth = createAsyncThunk('user/auth', async (data: UserLoginInput) => {
+  const response = await api.login.userLogin(data, { withCredentials: true });
+  if ('data' in response) {
+    return response.data as TUser;
   }
-})
+  throw new Error('Failed to authenticate');
+});
+
+// Функция для выхода пользователя из системы
+export const userLogout = createAsyncThunk('user/logout', async () => {
+  try {
+    await api.logout.userLogout({ withCredentials: true });
+  } catch (error) {
+    console.error('Logout failed:', error);
+    throw error; // Выбросим ошибку, чтобы она была обработана в extraReducers
+  }
+});
+
+// Функция для регистрации нового пользователя
+export const userRegister = createAsyncThunk('user/register', async (data: UserCreateInput) => {
+  try {
+    const response = await api.users.userRegister(data);
+    if ('data' in response) {
+      return response.data as TUser;
+    }
+    throw new Error('Failed to register user');
+  } catch (error) {
+    console.error('Registration failed:', error);
+    throw error; // Выбросим ошибку, чтобы она была обработана в extraReducers
+  }
+});
 
 const getAuthDataFromLocalStorage = () => {
   const savedAuth = localStorage.getItem('auth_data');
-  return savedAuth ? JSON.parse(savedAuth) : { isAuthenticated: false, user: { username: null, token: null, id: null } };
+  return savedAuth ? JSON.parse(savedAuth) : { isAuthenticated: false, user: null };
 };
 
 const setAuthDataToLocalStorage = (auth: AuthState) => {
@@ -53,19 +79,50 @@ const authSlice = createSlice({
       })
       .addCase(userAuth.fulfilled, (state, action: PayloadAction<UserList | undefined>) => {
         state.isAuthenticated = true;
-        if(action.payload) {
+        if (action.payload) {
           state.user = action.payload;
         }
         state.loading = false;
-        // saveAuthToLocalStorage(state);
+        setAuthDataToLocalStorage(state); // Сохраняем в localStorage после успешной авторизации
       })
       .addCase(userAuth.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload as string;
+        state.error = action.error.message || 'Authentication failed';
       })
-  }
+      // Logout
+      .addCase(userLogout.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(userLogout.fulfilled, (state) => {
+        state.isAuthenticated = false;
+        state.user = null;
+        state.loading = false;
+        setAuthDataToLocalStorage(state); // Очищаем данные в localStorage после успешного выхода
+      })
+      .addCase(userLogout.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Logout failed';
+      })
+      // Register
+      .addCase(userRegister.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(userRegister.fulfilled, (state, action: PayloadAction<TUser | undefined>) => {
+        state.isAuthenticated = true;
+        if (action.payload) {
+          state.user = action.payload;
+        }
+        state.loading = false;
+        setAuthDataToLocalStorage(state); // Сохраняем данные в localStorage после успешной регистрации
+      })
+      .addCase(userRegister.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Registration failed';
+      });
+  },
 });
 
 export const { login, logout } = authSlice.actions;
-
 export default authSlice.reducer;

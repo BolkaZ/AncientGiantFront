@@ -12,14 +12,14 @@ import { Api } from './api/Api'
 
 function App() {
   useEffect(()=>{
-    // invoke('tauri', {cmd:'create'})
-    //   .then(() =>{console.log("Tauri launched")})
-    //   .catch(() =>{console.log("Tauri not launched")})
-    // return () =>{
-    //   invoke('tauri', {cmd:'close'})
-    //     .then(() =>{console.log("Tauri launched")})
-    //     .catch(() =>{console.log("Tauri not launched")})
-    // }
+    invoke('tauri', {cmd:'create'})
+      .then(() =>{console.log("Tauri launched")})
+      .catch(() =>{console.log("Tauri not launched")})
+    return () =>{
+      invoke('tauri', {cmd:'close'})
+        .then(() =>{console.log("Tauri launched")})
+        .catch(() =>{console.log("Tauri not launched")})
+    }
     const api = new Api()
     const response = api.periods.periodList()
     console.log(response)

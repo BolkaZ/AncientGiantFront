@@ -3,6 +3,7 @@ import { DetailPage } from "../pages/catalog/detail/Detail";
 import { GuestPage } from "../pages/guest/Guest";
 import {AuthorizationPage} from '../pages/user/authorization/AuthorizationPage.tsx';
 import {RegistrationPage} from '../pages/user/registration/AuthorizationPage.tsx';
+import {UserBidsPage} from '../pages/user/bids/UserBidsPage.tsx';
 
 
 type TRoute = {
@@ -16,6 +17,7 @@ export enum staticLinks  {
     CATALOG_DETAIL= '/catalog/:id',
     AUTHORIZATION = '/authorization',
     REGISTRATION = '/registration',
+    USER_BIDS = '/user/bids',
 }
 
 export const dynamicLinks = {
@@ -48,11 +50,16 @@ const registrationRoute: TRoute = {
   element: <RegistrationPage />
 }
 
+const userBidsRoute: TRoute = {
+  path: staticLinks.USER_BIDS,
+  element: <UserBidsPage />
+}
 
 export const routes: TRoute[] = [
      guestRote,
      catalogRote,
      detailRoute,
      authorizationRoute,
-      registrationRoute
+      registrationRoute,
+      userBidsRoute
 ]

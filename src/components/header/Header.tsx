@@ -3,7 +3,7 @@ import {Link, useLocation, useNavigate} from 'react-router-dom'
 import { staticLinks } from "../../config/router-config"
 import clsx from 'clsx';
 import {useAppDispatch, useAppSelector} from '../../hooks/redux.ts';
-import {logout} from '../../store/userSlice';
+import {logout, userLogout} from '../../store/userSlice';
 
 export const Header = () => {
 
@@ -14,6 +14,7 @@ export const Header = () => {
     const {isAuthenticated, user} = useAppSelector(state => state.user);
 
     const onLogout = () => {
+        dispatch(userLogout());
         dispatch(logout());
         navigate(staticLinks.AUTHORIZATION)
     }
@@ -30,6 +31,9 @@ export const Header = () => {
                 </Nav.Item>
                 <Nav.Item>
                     <Link className={getClassesLink(staticLinks.CATALOG)} to={staticLinks.CATALOG}>Каталог</Link>
+                </Nav.Item>
+                <Nav.Item>
+                    <Link className={getClassesLink(staticLinks.USER_BIDS)} to={staticLinks.USER_BIDS}>Заявки</Link>
                 </Nav.Item>
             </Nav>
             {!isAuthenticated

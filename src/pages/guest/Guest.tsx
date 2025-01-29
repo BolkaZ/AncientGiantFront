@@ -14,10 +14,11 @@ export const GuestPage = () => {
               textAlign: 'center',
               padding: '100px 0',
               height: 'max-content',
-              minHeight: '100vh'
+              minHeight: '100vh',
+              color: 'ActiveBorder'
           }}
         >
-            <h1>Путешествие в прошлое Земли</h1>
+            <h1 className={'1'}>Путешествие в прошлое Земли</h1>
             <p>Узнайте больше о жизни динозавров и древних экосистемах.</p>
             <Button onClick={()=>navigate(staticLinks.CATALOG)} variant="primary" size="lg">Узнать больше</Button>
         </div>
