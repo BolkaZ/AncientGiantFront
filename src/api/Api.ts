@@ -35,6 +35,8 @@ export interface BidList {
    * @minLength 1
    */
   comment: string;
+  /** QR код */
+  qr?: string | null;
 }
 
 export interface AnimalGet {
@@ -78,6 +80,29 @@ export interface PeriodForBidFullInfo {
   quantity_found?: number;
 }
 
+export interface Animal {
+  /** ID */
+  id?: number;
+  /**
+   * Название
+   * @minLength 1
+   * @maxLength 255
+   */
+  name: string;
+  /**
+   * Группа
+   * @minLength 1
+   * @maxLength 255
+   */
+  group: string;
+  /**
+   * Количество найденных окаменелостей особи
+   * @min -2147483648
+   * @max 2147483647
+   */
+  quantity_found: number;
+}
+
 export interface BidGetFullInfo {
   periods: PeriodForBidFullInfo[];
   /**
@@ -105,6 +130,7 @@ export interface BidGetFullInfo {
    * @minLength 1
    */
   comment: string;
+  animal: Animal;
 }
 
 export interface BidUpdateInput {
@@ -113,6 +139,24 @@ export interface BidUpdateInput {
    * @minLength 1
    */
   comment: string;
+}
+
+export interface BidFormInput {
+  /**
+   * Comment
+   * @minLength 1
+   */
+  comment: string;
+  /**
+   * Name
+   * @minLength 1
+   */
+  name: string;
+  /**
+   * Group
+   * @minLength 1
+   */
+  group: string;
 }
 
 export interface BidModerationInput {
@@ -230,6 +274,7 @@ export interface PeriodGetSerializers {
    * @maxLength 500
    */
   image: string;
+  animals: AnimalGet[];
 }
 
 export interface PeriodUpdateInput {
@@ -691,7 +736,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/bids/{bid_id}/form/
      * @secure
      */
-    bidForm: (bidId: string, params: RequestParams = {}) =>
+    bidForm: (bidId: string, data: BidFormInput, params: RequestParams = {}) =>
       this.request<
         BidGetFullInfo,
         | {
@@ -705,7 +750,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/bids/${bidId}/form/`,
         method: "PUT",
+        body: data,
         secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),

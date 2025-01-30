@@ -41,7 +41,7 @@ export const AuthorizationPage = () => {
           <Form>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email</Form.Label>
-              <Form.Control required value={username} onChange={(e)=>setUsername(e.target.value)} type="email" placeholder="Введите email"/>
+              <Form.Control required value={username} onChange={(e)=>setUsername(e.target.value)} type="text" placeholder="Введите email"/>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
