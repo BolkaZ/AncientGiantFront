@@ -8,6 +8,8 @@ import {UserProfilePage} from '../pages/user/profile/UserProfilePage.tsx';
 import { BidDetailsPage } from "../pages/user/bid/BidPage.tsx";
 import { PeriodListModerationPage } from "../pages/moderator/periods/PeriodsList.tsx";
 import { PeriodFormPage } from "../pages/moderator/period-form/PeriodsForm.tsx";
+import { ForbiddenPage } from "../pages/403.tsx";
+import { NotFoundPage } from "../pages/404.tsx";
 
 
 type TRoute = {
@@ -26,7 +28,9 @@ export enum staticLinks  {
     USER_BID = '/user/bid/:bidId',
     MODERATION_PERIODS = '/moderation_periods',
     MODERATION_PERIOD_UPDATE = '/moderation_periods/:periodId',
-    MODERATION_PERIOD_CREATE = '/moderation_periods/create'
+    MODERATION_PERIOD_CREATE = '/moderation_periods/create',
+    FORBIDDEN= "/403",
+    NOTFOUND= "/404"
 }
 
 export const dynamicLinks = {
@@ -91,6 +95,16 @@ const ModerationPeriodsUpdateRoute: TRoute = {
   element: <PeriodFormPage />
 }
 
+const ForbiddenRoute: TRoute = {
+  path:staticLinks.FORBIDDEN,
+  element: <ForbiddenPage />
+}
+
+const notFoundRoute: TRoute = {
+  path:staticLinks.NOTFOUND,
+  element: <NotFoundPage />
+}
+
 export const routes: TRoute[] = [
      guestRote,
      catalogRote,
@@ -102,5 +116,7 @@ export const routes: TRoute[] = [
   BidProfileRoute,
   ModerationPeriodsListRoute,
   ModerationPeriodsCreateRoute,
-  ModerationPeriodsUpdateRoute
+  ModerationPeriodsUpdateRoute,
+  ForbiddenRoute,
+  notFoundRoute
 ]

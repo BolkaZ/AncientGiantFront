@@ -19,8 +19,19 @@ export const UserBidListPage = () => {
   },[isAuthenticated]);
 
   useEffect(() => {
-    dispatch(fetchBidList({}));
+    const interval =setInterval(()=> {
+      dispatch(fetchBidList({}));
+
+    },1000)
+    return () => {
+      clearInterval(interval);
+    };
   }, [dispatch]);
+
+  // const interval =setInterval(()=> {
+  //   dispatch(fetchBidList({}));
+
+  // },1000)
 
   const handleApproveBid = async (bidId: string) => {
     if (bidId) {
@@ -50,9 +61,7 @@ export const UserBidListPage = () => {
         <Card.Body style={{overflowX: 'auto'}}>
           <h1 className={'h1 text-center'}>Список заявок</h1>
           {error && <Alert variant="danger">{error}</Alert>}
-          {loading ? (
-            <p>Загрузка...</p>
-          ) : (
+          {(
             <Table striped bordered hover responsive>
               <thead>
               <tr>
@@ -61,6 +70,7 @@ export const UserBidListPage = () => {
                 <th>Дата формирования</th>
                 <th>Дата окончания</th>
                 <th>Комментарий</th>
+                <th>qr</th>
                 {user?.is_superuser &&<th>Действие</th>}
               </tr>
               </thead>
@@ -72,6 +82,7 @@ export const UserBidListPage = () => {
                   <td>{bid.to_form_at}</td>
                   <td>{bid.finished_at}</td>
                   <td>{bid.comment}</td>
+                  <td className='qr-hover'>{bid.qr && <img className="qr-code" src={`data:image/png;base64,${bid.qr}`} alt="QR Code" />}</td> 
                   {user?.is_superuser && !bid.finished_at &&<td><Button onClick={()=>handleApproveBid(bid.id)}>Одобрить</Button> <Button variant='danger' onClick={()=>handleRejectBid(bid.id) }>Отклонить</Button></td> }
                 </tr>
               ))}

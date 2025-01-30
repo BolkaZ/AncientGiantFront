@@ -10,3 +10,7 @@
   background-color: #f1efda;
   min-height: 100vh;
 }
+
+.qr-hover:hover .qr-code{
+  transform: scale(3);
+}
