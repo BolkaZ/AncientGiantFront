@@ -9,7 +9,7 @@ export const UserBidListPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { bids, loading, error } = useAppSelector(state => state.bids);
+  const { bids, loading, error } = useAppSelector(state => state.bidsCollection);
   const {isAuthenticated} = useAppSelector(state => state.user);
 
   useEffect(() => {

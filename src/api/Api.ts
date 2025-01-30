@@ -801,7 +801,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     userLogin: (data: UserLoginInput, params: RequestParams = {}) =>
       this.request<
-        UserList,
+        UserList & {session_id: string},
         {
           /** @example "Invalid credentianls." */
           detail?: string;

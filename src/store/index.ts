@@ -4,13 +4,14 @@ import periodSlice from './periodSlice';
 import periodsSlice from './periodCollectionSlice'
 import userSlice from './userSlice';
 import bidsSlice from './bidsSlice';
-
+import bidSlice from './bidSlice';
 const rootReducer = combineReducers({
   filter: filterSlice,
   period: periodSlice,
   periodCollection: periodsSlice,
   user: userSlice,
-  bids: bidsSlice
+  bidsCollection: bidsSlice,
+  bid: bidSlice,
 })
 
 
