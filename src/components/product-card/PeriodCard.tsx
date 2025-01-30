@@ -6,6 +6,7 @@ import {useNavigate} from 'react-router-dom';
 import {dynamicLinks} from '../../config/router-config.tsx';
 import {useAppDispatch, useAppSelector} from '../../hooks/redux.ts';
 import {periodInBidCreate} from '../../store/bidSlice';
+import { useState } from 'react';
 
 export const PeriodCard =({item}: {item: TPeriod}) => {
 
@@ -13,6 +14,10 @@ export const PeriodCard =({item}: {item: TPeriod}) => {
   const dispatch = useAppDispatch();
 
   const {bid} = useAppSelector(state => state.bid);
+
+  const [isDisabled, setIsDisabled] = useState(false)
+
+  const {isAuthenticated} = useAppSelector(state=> state.user)
 
   const handleAddPeriodToBid = async () => {
     try {
@@ -24,6 +29,7 @@ export const PeriodCard =({item}: {item: TPeriod}) => {
 
       if ('payload' in response && response.payload) {
         console.log('Period added to bid successfully:', response.payload);
+        setIsDisabled(true);
         // Можно добавить дополнительную логику, например, обновление состояния или навигацию
       }
     } catch (error) {
@@ -38,7 +44,7 @@ export const PeriodCard =({item}: {item: TPeriod}) => {
       <Card.Subtitle>Начало:{item.start}</Card.Subtitle>
       <Card.Subtitle>Конец:{item.end}</Card.Subtitle>
       <div className='d-flex gap-1 mt-1'>
-        <Button className='' variant="primary" onClick={()=> handleAddPeriodToBid()}>Добавить</Button>
+        {isAuthenticated &&<Button disabled={isDisabled} className='' variant="primary" onClick={()=> handleAddPeriodToBid()}>Добавить</Button>}
         <Button className='' variant="outlined" onClick={()=>navigate(dynamicLinks.catalogDetail(item.id))} >Подробнее</Button>
       </div>
     </Card.Body>

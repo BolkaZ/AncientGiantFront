@@ -144,12 +144,12 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(userRegister.fulfilled, (state, action: PayloadAction<TUser | undefined>) => {
-        state.isAuthenticated = true;
-        if (action.payload) {
-          state.user = action.payload;
-        }
+        // state.isAuthenticated = true;
+        // if (action.payload) {
+        //   state.user = action.payload;
+        // }
         state.loading = false;
-        setAuthDataToLocalStorage(state); // Сохраняем данные в localStorage после успешной регистрации
+        // setAuthDataToLocalStorage(state); // Сохраняем данные в localStorage после успешной регистрации
       })
       .addCase(userRegister.rejected, (state, action) => {
         state.loading = false;

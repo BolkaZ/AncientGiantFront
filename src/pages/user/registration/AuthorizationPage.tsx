@@ -31,9 +31,7 @@ export const RegistrationPage = () => {
       const response = await dispatch(userRegister(userData));
 
       if ('payload' in response && response.payload) {
-        if (isAuthenticated) {
-          navigate(staticLinks.CATALOG);
-        }
+          navigate(staticLinks.AUTHORIZATION);
       }
     }
   };

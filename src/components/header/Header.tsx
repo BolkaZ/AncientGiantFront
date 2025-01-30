@@ -42,7 +42,7 @@ export const Header = () => {
             {!isAuthenticated
               ? (<> <Link to={staticLinks.AUTHORIZATION}><Button variant='info'>Войти</Button></Link>
                 <Link to={staticLinks.AUTHORIZATION}><Button variant='link'>Регистрация</Button></Link></>)
-              : (<> {user?.username} <Button onClick={onLogout} variant='outline-danger'>Выйти</Button>
+              : (<> {user?.first_name} / {user?.username} <Button className='ml-1' onClick={onLogout} variant='outline-danger'>Выйти</Button>
                   </>)
             }
         </Navbar.Collapse>
