@@ -1,7 +1,7 @@
 // store/bidSlice.ts
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { api } from '../../api';
-import { BidList } from '../../api/Api.ts';
+import { BidGetFullInfo, BidList, BidModerationInput } from '../../api/Api.ts';
 
 // Тип для параметров запроса
 export interface BidListQuery {
@@ -23,6 +23,46 @@ export const fetchBidList = createAsyncThunk<BidList[], BidListQuery>(
     } catch (error) {
       console.error('Fetch bid list failed:', error);
       return rejectWithValue(error.message || 'Failed to fetch bid list');
+    }
+  }
+);
+
+// Асинхронный thunk для принятия заявки
+export const approveBid = createAsyncThunk<BidGetFullInfo, string>(
+  'bids/approveBid',
+  async (bidId, { rejectWithValue }) => {
+    try {
+      const moderationData: BidModerationInput = {
+        status: 'FINISHED',
+      };
+      const response = await api.bids.bidModeration(bidId, moderationData);
+      if ('data' in response) {
+        return response.data as BidGetFullInfo;
+      }
+      throw new Error('Failed to approve bid');
+    } catch (error) {
+      console.error('Approve bid failed:', error);
+      return rejectWithValue(error.message || 'Failed to approve bid');
+    }
+  }
+);
+
+// Асинхронный thunk для отклонения заявки
+export const rejectBid = createAsyncThunk<BidGetFullInfo, string>(
+  'bids/rejectBid',
+  async (bidId, { rejectWithValue }) => {
+    try {
+      const moderationData: BidModerationInput = {
+        status: 'REJECTED',
+      };
+      const response = await api.bids.bidModeration(bidId, moderationData);
+      if ('data' in response) {
+        return response.data as BidGetFullInfo;
+      }
+      throw new Error('Failed to reject bid');
+    } catch (error) {
+      console.error('Reject bid failed:', error);
+      return rejectWithValue(error.message || 'Failed to reject bid');
     }
   }
 );
@@ -60,6 +100,34 @@ const bidSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchBidList.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // Approve Bid
+      .addCase(approveBid.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(approveBid.fulfilled, (state, action: PayloadAction<BidGetFullInfo>) => {
+        state.bid = action.payload;
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(approveBid.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // Reject Bid
+      .addCase(rejectBid.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(rejectBid.fulfilled, (state, action: PayloadAction<BidGetFullInfo>) => {
+        state.bid = action.payload;
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(rejectBid.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

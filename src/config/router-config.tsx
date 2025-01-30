@@ -6,6 +6,8 @@ import {RegistrationPage} from '../pages/user/registration/AuthorizationPage.tsx
 import {UserBidListPage} from '../pages/user/bids/UserBidsPage.tsx';
 import {UserProfilePage} from '../pages/user/profile/UserProfilePage.tsx';
 import { BidDetailsPage } from "../pages/user/bid/BidPage.tsx";
+import { PeriodListModerationPage } from "../pages/moderator/periods/PeriodsList.tsx";
+import { PeriodFormPage } from "../pages/moderator/period-form/PeriodsForm.tsx";
 
 
 type TRoute = {
@@ -21,12 +23,16 @@ export enum staticLinks  {
     REGISTRATION = '/registration',
     USER_BIDS = '/user/bids',
     USER_PROFILE = '/user',
-    USER_BID = '/user/bid/:bidId'
+    USER_BID = '/user/bid/:bidId',
+    MODERATION_PERIODS = '/moderation_periods',
+    MODERATION_PERIOD_UPDATE = '/moderation_periods/:periodId',
+    MODERATION_PERIOD_CREATE = '/moderation_periods/create'
 }
 
 export const dynamicLinks = {
     catalogDetail: (id: string | number) => `/catalog/${id}`,
-    userBid: (id: string | number) => `/user/bid/${id}`
+    userBid: (id: string | number) => `/user/bid/${id}`,
+    moderationPeriodUpdateCreate: (id: string | number) => `/moderation_periods/${id}`
 }
 
 
@@ -70,6 +76,21 @@ const BidProfileRoute: TRoute = {
   element: <BidDetailsPage />
 }
 
+const ModerationPeriodsListRoute: TRoute = {
+  path:staticLinks.MODERATION_PERIODS,
+  element: <PeriodListModerationPage />
+}
+
+const ModerationPeriodsCreateRoute: TRoute = {
+  path:staticLinks.MODERATION_PERIOD_CREATE,
+  element: <PeriodFormPage />
+}
+
+const ModerationPeriodsUpdateRoute: TRoute = {
+  path:staticLinks.MODERATION_PERIOD_UPDATE,
+  element: <PeriodFormPage />
+}
+
 export const routes: TRoute[] = [
      guestRote,
      catalogRote,
@@ -78,5 +99,8 @@ export const routes: TRoute[] = [
       registrationRoute,
       userBidsRoute,
   userProfileRoute,
-  BidProfileRoute
+  BidProfileRoute,
+  ModerationPeriodsListRoute,
+  ModerationPeriodsCreateRoute,
+  ModerationPeriodsUpdateRoute
 ]

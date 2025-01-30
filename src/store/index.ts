@@ -5,6 +5,7 @@ import periodsSlice from './periodCollectionSlice'
 import userSlice from './userSlice';
 import bidsSlice from './bidsSlice';
 import bidSlice from './bidSlice';
+import periodModerationSlice from './periodModerationSlice'
 const rootReducer = combineReducers({
   filter: filterSlice,
   period: periodSlice,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   user: userSlice,
   bidsCollection: bidsSlice,
   bid: bidSlice,
+  periodModeration: periodModerationSlice,
 })
 
 

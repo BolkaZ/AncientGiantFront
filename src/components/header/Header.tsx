@@ -39,6 +39,9 @@ export const Header = () => {
                 <Nav.Item>
                     <Link className={getClassesLink(staticLinks.USER_PROFILE)} to={staticLinks.USER_PROFILE}>Профиль</Link>
                 </Nav.Item></>}
+                {user?.is_superuser && <Nav.Item>
+                    <Link className={getClassesLink(staticLinks.MODERATION_PERIODS)} to={staticLinks.MODERATION_PERIODS}>Периоды</Link>
+                </Nav.Item>}
             </Nav>
             {!isAuthenticated
               ? (<> <Link to={staticLinks.AUTHORIZATION}><Button variant='info'>Войти</Button></Link>

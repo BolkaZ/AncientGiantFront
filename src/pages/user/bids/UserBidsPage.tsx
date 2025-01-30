@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { Alert, Card, Container, Table } from 'react-bootstrap';
+import { Alert, Button, Card, Container, Table } from 'react-bootstrap';
 import {useAppDispatch, useAppSelector} from '../../../hooks/redux.ts';
-import {fetchBidList} from '../../../store/bidsSlice';
+import {approveBid, fetchBidList, rejectBid} from '../../../store/bidsSlice';
 import {staticLinks} from '../../../config/router-config.tsx';
 import {useNavigate} from 'react-router-dom';
 
@@ -10,7 +10,7 @@ export const UserBidListPage = () => {
   const navigate = useNavigate();
 
   const { bids, loading, error } = useAppSelector(state => state.bidsCollection);
-  const {isAuthenticated} = useAppSelector(state => state.user);
+  const {isAuthenticated, user} = useAppSelector(state => state.user);
 
   useEffect(() => {
     if(!isAuthenticated) {
@@ -21,6 +21,28 @@ export const UserBidListPage = () => {
   useEffect(() => {
     dispatch(fetchBidList({}));
   }, [dispatch]);
+
+  const handleApproveBid = async (bidId: string) => {
+    if (bidId) {
+      const response = await dispatch(approveBid(bidId));
+
+      if ('payload' in response && response.payload) {
+        dispatch(fetchBidList({}))
+        console.log('Bid approved successfully:', response.payload);
+      }
+    }
+  };
+
+  const handleRejectBid = async (bidId: string) => {
+    if (bidId) {
+      const response = await dispatch(rejectBid(bidId));
+
+      if ('payload' in response && response.payload) {
+        dispatch(fetchBidList({}));
+        console.log('Bid rejected successfully:', response.payload);
+      }
+    }
+  };
 
   return (
     <Container className={'p-5'}>
@@ -39,6 +61,7 @@ export const UserBidListPage = () => {
                 <th>Дата формирования</th>
                 <th>Дата окончания</th>
                 <th>Комментарий</th>
+                {user?.is_superuser &&<th>Действие</th>}
               </tr>
               </thead>
               <tbody>
@@ -49,6 +72,7 @@ export const UserBidListPage = () => {
                   <td>{bid.to_form_at}</td>
                   <td>{bid.finished_at}</td>
                   <td>{bid.comment}</td>
+                  {user?.is_superuser && !bid.finished_at &&<td><Button onClick={()=>handleApproveBid(bid.id)}>Одобрить</Button> <Button variant='danger' onClick={()=>handleRejectBid(bid.id) }>Отклонить</Button></td> }
                 </tr>
               ))}
               </tbody>

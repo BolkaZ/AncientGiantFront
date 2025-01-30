@@ -19,6 +19,8 @@ export const BreadCrumbs = () => {
       ['user']: 'Пользователь',
       ['bids']: 'Заявки',
       ['bid']: 'Заявка',
+      ['moderation_periods']: 'Модерация Периодов',
+      ['create']: 'Создание',
     }
   
     useEffect(()=> {

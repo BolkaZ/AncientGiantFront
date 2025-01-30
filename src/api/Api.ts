@@ -10,6 +10,7 @@
  */
 
 export interface BidList {
+  id: number
   /**
    * Дата создания
    * @format date-time
@@ -1006,10 +1007,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     periodImageCreate: (
       periodId: string,
-      data: {
-        /** @format binary */
-        image: File;
-      },
+      data: FormData,
       params: RequestParams = {},
     ) =>
       this.request<
