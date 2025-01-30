@@ -38,7 +38,7 @@ export const PeriodCard =({item}: {item: TPeriod}) => {
       <Card.Subtitle>Начало:{item.start}</Card.Subtitle>
       <Card.Subtitle>Конец:{item.end}</Card.Subtitle>
       <div className='d-flex gap-1 mt-1'>
-        <Button className='' variant="primary" onClick={()=> handleAddPeriodToBid()}>Добавить</Button>
+        <Button disabled={bid?.periods.findIndex((period) => period.id === item.id) !== -1} className='' variant="primary" onClick={()=> handleAddPeriodToBid()}>Добавить</Button>
         <Button className='' variant="outlined" onClick={()=>navigate(dynamicLinks.catalogDetail(item.id))} >Подробнее</Button>
       </div>
     </Card.Body>
