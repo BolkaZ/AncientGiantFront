@@ -25,13 +25,13 @@ export const UserBidListPage = () => {
   return (
     <Container className={'p-5'}>
       <Card>
-        <Card.Body>
+        <Card.Body style={{overflowX: 'auto'}}>
           <h1 className={'h1 text-center'}>Список заявок</h1>
           {error && <Alert variant="danger">{error}</Alert>}
           {loading ? (
             <p>Загрузка...</p>
           ) : (
-            <Table striped bordered hover>
+            <Table striped bordered hover responsive>
               <thead>
               <tr>
                 <th>Дата создания</th>

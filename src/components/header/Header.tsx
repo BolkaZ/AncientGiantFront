@@ -32,16 +32,17 @@ export const Header = () => {
                 <Nav.Item>
                     <Link className={getClassesLink(staticLinks.CATALOG)} to={staticLinks.CATALOG}>Каталог</Link>
                 </Nav.Item>
+                {isAuthenticated && <>
                 <Nav.Item>
                     <Link className={getClassesLink(staticLinks.USER_BIDS)} to={staticLinks.USER_BIDS}>Заявки</Link>
                 </Nav.Item>
                 <Nav.Item>
                     <Link className={getClassesLink(staticLinks.USER_PROFILE)} to={staticLinks.USER_PROFILE}>Профиль</Link>
-                </Nav.Item>
+                </Nav.Item></>}
             </Nav>
             {!isAuthenticated
               ? (<> <Link to={staticLinks.AUTHORIZATION}><Button variant='info'>Войти</Button></Link>
-                <Link to={staticLinks.AUTHORIZATION}><Button variant='link'>Регистрация</Button></Link></>)
+                <Link to={staticLinks.REGISTRATION}><Button variant='link'>Регистрация</Button></Link></>)
               : (<> {user?.first_name} / {user?.username} <Button className='ml-1' onClick={onLogout} variant='outline-danger'>Выйти</Button>
                   </>)
             }

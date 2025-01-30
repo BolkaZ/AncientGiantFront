@@ -16,6 +16,9 @@ export const BreadCrumbs = () => {
       ['catalog']: 'Каталог',
       ['registration']: 'Регистрация',
       ['authorization']: 'Авторизация',
+      ['user']: 'Пользователь',
+      ['bids']: 'Заявки',
+      ['bid']: 'Заявка',
     }
   
     useEffect(()=> {

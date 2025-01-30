@@ -1,6 +1,6 @@
 // components/BidDetailsPage.tsx
 import { useEffect, useState } from 'react';
-import { Alert, Button, Card, Container, Form, Row, Col } from 'react-bootstrap';
+import { Alert, Button, Card, Container, Form, Row, Col, Badge } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 import { staticLinks } from '../../../config/router-config.tsx';
 import Plug from '../../../assets/img_empty-photo.png';
@@ -65,6 +65,7 @@ export const BidDetailsPage = () => {
 
       if ('payload' in response && response.payload) {
         console.log('Bid formed successfully:', response.payload);
+
       }
     }
   };
@@ -162,7 +163,7 @@ export const BidDetailsPage = () => {
                     />
                     <Card.Body>
                       <Card.Title>{period.name}</Card.Title>
-                      <Card.Subtitle>Животные: {period.animals.toLocaleString()}</Card.Subtitle>
+                      <Card.Subtitle>Животные: <div className='d-flex g-2 flex-wrap'>{period.animals.map((animal)=><>{animal.name}, {animal.group}, {animal.quantity_found} найдено; <br /></> )}</div></Card.Subtitle>
                     </Card.Body>
                   </Card>
                 </Col>

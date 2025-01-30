@@ -147,7 +147,9 @@ const bidSlice = createSlice({
   name: 'bids',
   initialState,
   reducers: {
-    // Можно добавить дополнительные редьюсеры, если потребуется
+    clearBid (state) {
+      state.bid= null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -241,7 +243,7 @@ const bidSlice = createSlice({
         state.error = null;
       })
       .addCase(bidForm.fulfilled, (state, action: PayloadAction<BidGetFullInfo>) => {
-        state.bid = action.payload;
+        state.bid = null;
         state.loading = false;
         state.error = null;
       })

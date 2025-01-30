@@ -41,6 +41,7 @@ const periodsSlice = createSlice({
         state.loading = false;
         if(action.payload?.periods) {
           state.periods = action.payload?.periods;
+          state.bidInfo = action.payload.bid_info
         }
       })
       .addCase(fetchPeriodCollection.rejected, (state,action) => {

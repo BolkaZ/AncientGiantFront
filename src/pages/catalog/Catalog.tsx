@@ -1,7 +1,7 @@
 import { useEffect } from "react"
-import { useSearchParams} from 'react-router-dom'
+import { Link, useSearchParams} from 'react-router-dom'
 import {PeriodCard} from '../../components/product-card/PeriodCard.tsx';
-import {Alert, Container, Form, InputGroup, Row, Spinner} from 'react-bootstrap';
+import {Alert, Button, Container, Form, InputGroup, Row, Spinner} from 'react-bootstrap';
 
 import styles from './Catalog.module.css'
 import { useDebouncedCallback} from 'use-debounce';
@@ -9,6 +9,8 @@ import {useAppDispatch, useAppSelector} from '../../hooks/redux.ts';
 import {changeEndDate, changeName, changeStartDate} from '../../store/filterSlice';
 import {TFilterState} from '../../store/filterSlice/types.ts';
 import { fetchPeriodCollection } from "../../store/periodCollectionSlice/index.ts";
+import { dynamicLinks, staticLinks } from "../../config/router-config.tsx";
+import Icon from '../../assets/icon.png'
 
 export const CatalogPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -16,7 +18,8 @@ export const CatalogPage = () => {
 
     const filter = useAppSelector(state => state.filter)
 
-    const {periods, loading, error} = useAppSelector(state=> state.periodCollection);
+    const {periods, loading, error, bidInfo} = useAppSelector(state=> state.periodCollection);
+    const {bid} = useAppSelector(state=> state.bid);
 
     useEffect(()=>{
         const filterKeys: (keyof TFilterState)[] = Object.keys(filter) as (keyof TFilterState)[];
@@ -29,7 +32,8 @@ export const CatalogPage = () => {
             }
         });
         setSearchParams(searchParams)
-
+        console.log(bidInfo);
+        
 
         getData()
     },[filter])
@@ -42,7 +46,7 @@ export const CatalogPage = () => {
     return <Container className="gap-3 p-3">
         <h1>Каталог</h1>
 
-        <Form className={'d-flex flex-row justify-content-between'}>
+        <Form className={'d-flex flex-row justify-content-between align-items-center'}>
             <Form.Group>
                 <Form.Label>Период времени до Н.Э.</Form.Label>
                 <InputGroup className="mb-3">
@@ -77,6 +81,7 @@ export const CatalogPage = () => {
                     />
                 </InputGroup>
             </Form.Group>
+           {bid?.id && <Link style={{maxHeight:60}} to={dynamicLinks.userBid(bid?.id)} ><img style={{maxWidth: 60}} src={Icon} alt="" /> </Link>} 
         </Form>
 
         <Row title={'Каталог'} className="position-relative d-flex flex-row mb-3 gap-3 justify-content-center">
