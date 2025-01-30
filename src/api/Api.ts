@@ -104,6 +104,7 @@ export interface Animal {
 }
 
 export interface BidGetFullInfo {
+  id?: number;
   periods: PeriodForBidFullInfo[];
   /**
    * Дата создания
@@ -366,7 +367,6 @@ export interface UserUpdateInput {
 
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
 import axios from "axios";
-import Cookies from 'js-cookie'
 
 export type QueryParamsType = Record<string | number, any>;
 
