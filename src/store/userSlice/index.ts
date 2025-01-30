@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { api } from '../../api';
 import { UserList, UserLoginInput, UserCreateInput, UserUpdateInput } from '../../api/Api.ts';
+import Cookies from 'js-cookie';
 
 export type TUser = UserList;
 
@@ -13,10 +14,21 @@ interface AuthState {
 
 // Функция для авторизации пользователя
 export const userAuth = createAsyncThunk('user/auth', async (data: UserLoginInput) => {
-  const response = await api.login.userLogin(data, { withCredentials: true });
+  const response = await api.login.userLogin(data);
   if ('data' in response) {
+
+    const sessionid = response.headers['Set-Cookie']
+  ?.find((cookie: string) => cookie.startsWith('sessionid='))
+  ?.split(';')[0]
+  ?.split('=')[1];
+
+  console.log(sessionid);
     return response.data as TUser;
   }
+
+  
+  
+
   throw new Error('Failed to authenticate');
 });
 
@@ -49,7 +61,7 @@ export const userUpdate = createAsyncThunk<TUser, { userId: string; data: UserUp
   'user/update',
   async ({ userId, data }, { rejectWithValue }) => {
     try {
-      const response = await api.users.userUpdate(userId, data);
+      const response = await api.users.userUpdate(userId, data, { withCredentials: true});
       if ('data' in response) {
         return response.data as TUser;
       }
@@ -67,7 +79,7 @@ const getAuthDataFromLocalStorage = () => {
 };
 
 const setAuthDataToLocalStorage = (auth: AuthState) => {
-  localStorage.setItem('auth_data', JSON.stringify(auth));
+  localStorage.setItem('auth_data', JSON.stringify({...auth, loading: false}));
 };
 
 const initialState: AuthState = getAuthDataFromLocalStorage();
@@ -98,6 +110,9 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         if (action.payload) {
           state.user = action.payload;
+          if(action.payload.session_id) {
+            Cookies.set('session_id', action.payload.session_id, {domain: '127.0.0.1'});
+          }
         }
         state.loading = false;
         setAuthDataToLocalStorage(state); // Сохраняем в localStorage после успешной авторизации
@@ -115,7 +130,9 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
         state.user = null;
         state.loading = false;
-        setAuthDataToLocalStorage(state); // Очищаем данные в localStorage после успешного выхода
+        setAuthDataToLocalStorage(state); 
+        Cookies.remove('session_id');
+        // Очищаем данные в localStorage после успешного выхода
       })
       .addCase(userLogout.rejected, (state, action) => {
         state.loading = false;

@@ -1,4 +1,4 @@
-import {Card} from 'react-bootstrap';
+import {Button, Card} from 'react-bootstrap';
 import {TPeriod} from '../../api/types.ts';
 
 import Plug from '../../assets/img_empty-photo.png'
@@ -9,12 +9,16 @@ export const PeriodCard =({item}: {item: TPeriod}) => {
 
   const navigate = useNavigate();
 
-  return (<Card onClick={()=>navigate(dynamicLinks.catalogDetail(item.id))} className={'p-0'} style={{maxWidth:' 250px',borderColor: '#753526', backgroundColor:'#efeeec'}}>
+  return (<Card className={'p-0'} style={{maxWidth:' 250px',borderColor: '#753526', backgroundColor:'#efeeec'}}>
   <Card.Img style={{objectFit: 'cover', maxWidth: 250, width: '100%'}} height={200}  variant='top' src={item.image?.length === 0 || !item.image ? Plug : item?.image} />
   <Card.Body>
     <Card.Title>{item.name}</Card.Title>
     <Card.Subtitle>Начало:{item.start}</Card.Subtitle>
     <Card.Subtitle>Конец:{item.end}</Card.Subtitle>
+    <div className='d-flex gap-1 mt-1'>
+    <Button className='' variant="primary">Добавить</Button>
+    <Button className='' variant="outlined" onClick={()=>navigate(dynamicLinks.catalogDetail(item.id))} >Подробнее</Button>
+    </div>
   </Card.Body>
 </Card>)
 }

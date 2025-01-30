@@ -35,6 +35,9 @@ export const Header = () => {
                 <Nav.Item>
                     <Link className={getClassesLink(staticLinks.USER_BIDS)} to={staticLinks.USER_BIDS}>Заявки</Link>
                 </Nav.Item>
+                <Nav.Item>
+                    <Link className={getClassesLink(staticLinks.USER_PROFILE)} to={staticLinks.USER_PROFILE}>Профиль</Link>
+                </Nav.Item>
             </Nav>
             {!isAuthenticated
               ? (<> <Link to={staticLinks.AUTHORIZATION}><Button variant='info'>Войти</Button></Link>

@@ -213,6 +213,8 @@ export interface UserList {
    * Designates that this user has all permissions without explicitly assigning them.
    */
   is_superuser?: boolean;
+
+  session_id: string;
 }
 
 export interface PeriodInput {
@@ -364,6 +366,7 @@ export interface UserUpdateInput {
 
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
 import axios from "axios";
+import Cookies from 'js-cookie'
 
 export type QueryParamsType = Record<string | number, any>;
 
@@ -801,7 +804,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     userLogin: (data: UserLoginInput, params: RequestParams = {}) =>
       this.request<
-        UserList & {session_id: string},
+        UserList ,
         {
           /** @example "Invalid credentianls." */
           detail?: string;
@@ -810,7 +813,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/login/`,
         method: "POST",
         body: data,
-        secure: true,
+        // secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -1075,7 +1078,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/users/${userId}/`,
         method: "PUT",
         body: data,
-        secure: true,
+        // secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,

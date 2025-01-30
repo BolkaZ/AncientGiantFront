@@ -8,22 +8,15 @@ import {Container} from 'react-bootstrap';
 import {useEffect} from 'react';
 import {invoke} from '@tauri-apps/api/core';
 import { Api } from './api/Api'
+import axios from 'axios'
 
 
 function App() {
-  useEffect(()=>{
-    invoke('tauri', {cmd:'create'})
-      .then(() =>{console.log("Tauri launched")})
-      .catch(() =>{console.log("Tauri not launched")})
-    return () =>{
-      invoke('tauri', {cmd:'close'})
-        .then(() =>{console.log("Tauri launched")})
-        .catch(() =>{console.log("Tauri not launched")})
-    }
-    const api = new Api()
-    const response = api.periods.periodList()
-    console.log(response)
-
+  useEffect(() =>{
+    // fetch({url:"http://127.0.0.1:8000/api/periods/", credentials: 'include',  })
+  // const response = axios.get("http://127.0.0.1:8000/api/periods/", { withCredentials: true });
+  // console.log(response);
+  
   }, [])
   return (
     <>

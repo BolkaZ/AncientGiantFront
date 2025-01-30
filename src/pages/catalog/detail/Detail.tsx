@@ -46,7 +46,7 @@ export const DetailPage = () => {
        </Col>
       </Row>
       <div className="text-center mt-4">
-       <Button variant="primary">Добавить</Button>
+       
       </div>
      </Card.Body>
     </Card>
