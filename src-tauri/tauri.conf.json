@@ -4,10 +4,10 @@
   "version": "0.1.0",
   "identifier": "com.tauri.dev",
   "build": {
-    "frontendDist": "../dist",
-    "devUrl": "https://localhost:3000/AncientGiantFront",
     "beforeDevCommand": "npm run dev",
-    "beforeBuildCommand": "npm run build"
+    "beforeBuildCommand": "npm run build",
+    "devUrl": "http://localhost:3000",
+    "frontendDist": "../dist"
   },
   "app": {
     "windows": [
@@ -19,6 +19,7 @@
         "fullscreen": false
       }
     ],
+
     "security": {
       "csp": null
     }
