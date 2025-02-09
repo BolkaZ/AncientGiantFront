@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { api } from '../../api';
 import { UserList, UserLoginInput, UserCreateInput, UserUpdateInput } from '../../api/Api.ts';
-import Cookies from 'js-cookie';
 
 export type TUser = UserList;
 
@@ -74,11 +73,11 @@ export const userUpdate = createAsyncThunk<TUser, { userId: string; data: UserUp
 );
 
 const getAuthDataFromLocalStorage = () => {
+
   return { isAuthenticated: false, user: null, loading: false, error: null };
 };
 
 const setAuthDataToLocalStorage = (auth: AuthState) => {
-
 };
 
 const initialState: AuthState = getAuthDataFromLocalStorage();
@@ -110,7 +109,6 @@ const authSlice = createSlice({
         if (action.payload) {
           state.user = action.payload;
           if(action.payload.session_id) {
-            Cookies.set('session_id', action.payload.session_id, {domain: '127.0.0.1'});
           }
         }
         state.loading = false;
@@ -130,7 +128,6 @@ const authSlice = createSlice({
         state.user = null;
         state.loading = false;
         setAuthDataToLocalStorage(state); 
-        Cookies.remove('session_id');
         // Очищаем данные в localStorage после успешного выхода
       })
       .addCase(userLogout.rejected, (state, action) => {
