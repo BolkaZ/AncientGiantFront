@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom"
-import {Button, Card, Col, Container, Row} from 'react-bootstrap';
+import { Card, Col, Container, Row} from 'react-bootstrap';
 import {useAppDispatch, useAppSelector} from '../../../hooks/redux.ts';
 import { getMockPeriod} from '../../../store/periodSlice';
 import {useEffect} from 'react';

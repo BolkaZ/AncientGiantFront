@@ -17,7 +17,7 @@ import {store} from './store';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store()}>
-      <Router basename={'/AncientGiantFront'} >
+      <Router >
         <App />
       </Router>
     </Provider>

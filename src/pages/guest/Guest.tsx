@@ -15,6 +15,7 @@ export const GuestPage = () => {
               padding: '100px 0',
               height: 'max-content',
               minHeight: '100vh',
+              // @ts-ignore
               color: 'ActiveBorder'
           }}
         >

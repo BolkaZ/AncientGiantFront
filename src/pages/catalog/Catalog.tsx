@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { Link, useSearchParams} from 'react-router-dom'
 import {PeriodCard} from '../../components/product-card/PeriodCard.tsx';
-import {Alert, Button, Container, Form, InputGroup, Row, Spinner} from 'react-bootstrap';
+import {Alert, Container, Form, InputGroup, Row, Spinner} from 'react-bootstrap';
 
 import styles from './Catalog.module.css'
 import { useDebouncedCallback} from 'use-debounce';
@@ -9,7 +9,7 @@ import {useAppDispatch, useAppSelector} from '../../hooks/redux.ts';
 import {changeEndDate, changeName, changeStartDate} from '../../store/filterSlice';
 import {TFilterState} from '../../store/filterSlice/types.ts';
 import { fetchPeriodCollection } from "../../store/periodCollectionSlice/index.ts";
-import { dynamicLinks, staticLinks } from "../../config/router-config.tsx";
+import { dynamicLinks } from "../../config/router-config.tsx";
 import Icon from '../../assets/icon.png'
 
 export const CatalogPage = () => {

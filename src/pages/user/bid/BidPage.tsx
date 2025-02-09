@@ -1,21 +1,12 @@
 // components/BidDetailsPage.tsx
 import { useEffect, useState } from 'react';
-import { Alert, Button, Card, Container, Form, Row, Col, Badge } from 'react-bootstrap';
+import { Alert, Button, Card, Container, Form, Row, Col } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 import { staticLinks } from '../../../config/router-config.tsx';
 import Plug from '../../../assets/img_empty-photo.png';
 import {useAppDispatch, useAppSelector} from '../../../hooks/redux.ts';
 import {bidDelete, bidForm, bidGet, bidUpdate, periodInBidDelete, PeriodInBidDeleteData} from '../../../store/bidSlice';
-import {BidFormInput, BidUpdateInput} from '../../../api/Api.ts'; // Путь к изображению плейсхолдера
-
-interface TPeriod {
-  id: number;
-  name: string;
-  start: string;
-  end: string;
-  image?: string;
-  // Добавьте другие поля по необходимости
-}
+import {BidFormInput, BidUpdateInput} from '../../../api/Api.ts';
 
 export const BidDetailsPage = () => {
   const dispatch = useAppDispatch();
@@ -153,7 +144,7 @@ export const BidDetailsPage = () => {
           ) : (
             <Row xs={1} md={2} lg={3} className="g-4">
               {bid.periods.map(period => (
-                <Col key={period.id}>
+                <Col key={period.name}>
                   <Card onClick={() => handleDeletePeriod(period.id.toString())} className={'p-0'} style={{ maxWidth: '250px', borderColor: '#753526', backgroundColor: '#efeeec' }}>
                     <Card.Img
                       style={{ objectFit: 'cover', maxWidth: 250, width: '100%' }}

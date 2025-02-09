@@ -62,6 +62,7 @@ export interface AnimalGet {
 }
 
 export interface PeriodForBidFullInfo {
+  id: any;
   /**
    * Name
    * @minLength 1

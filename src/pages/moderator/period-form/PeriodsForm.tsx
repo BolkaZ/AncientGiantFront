@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import { Alert, Button, Card, Container, Form } from 'react-bootstrap';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import Plug from '../../../assets/img_empty-photo.png'; 
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { clearPeriod, periodCreate, periodGet, periodImageUpdate, periodUpdate } from '../../../store/periodModerationSlice';
 import { PeriodUpdateInput } from '../../../api/Api';
@@ -22,7 +21,7 @@ export const PeriodFormPage = () => {
   const [end, setEnd] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const [newImage, setNewImage] = useState<File | null>(null);
-  const [newImageUrl, setNewImageUrl] = useState<string | null>(null)
+  const [ setNewImageUrl] = useState<string | null>(null)
 
     useEffect(()=>{setName('')
         setDetailedText('')
@@ -50,11 +49,13 @@ export const PeriodFormPage = () => {
 
   const handleSubmit = async () => {
 
+
     const formData: PeriodUpdateInput = {
       name,
       start,
       end,
       detail_text: detailedText,
+      // @ts-ignore
       image: image || undefined,
     };
 
@@ -76,18 +77,12 @@ export const PeriodFormPage = () => {
       }
     }
   };
-
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setImage(file);
-    }
-  };
   const handleNewImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    var reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = (event) => {
-        setNewImageUrl(event!.target!.result)
+        // @ts-ignore
+      setNewImageUrl(event!.target!.result)
     }
     if (file) {
       setNewImage(file);
