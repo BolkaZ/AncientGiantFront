@@ -54,8 +54,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    padding: 10,
-    backgroundColor: '#fff',
   },
   buttonsContainer: {
     flexDirection: 'row',
