@@ -8,6 +8,7 @@ import {
   ScrollView,
   Image,
   StyleSheet,
+  Alert,
 } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
@@ -56,6 +57,8 @@ export const BidDetailsPage = () => {
 
       if ('payload' in response && response.payload) {
         console.log('Bid updated successfully:', response.payload);
+        Alert.alert('Успешно','Комментарий успешно обновлен!')
+        navigation.navigate('Каталог');
       }
     }
   };
@@ -72,6 +75,8 @@ export const BidDetailsPage = () => {
 
       if ('payload' in response && response.payload) {
         console.log('Bid formed successfully:', response.payload);
+        Alert.alert('Успешно','Заявка успешно оформлена!')
+        navigation.navigate('Каталог');
       }
     }
   };
@@ -81,6 +86,7 @@ export const BidDetailsPage = () => {
       const response = await dispatch(bidDelete(bidId));
 
       if ('payload' in response) {
+        Alert.alert('Успешно','Заявка успешно удалена!')
         navigation.navigate('Каталог');
       }
     }
@@ -188,9 +194,9 @@ export const BidDetailsPage = () => {
         <View style={styles.periodsContainer}>
           {bid.periods.map((period) => (
             <TouchableOpacity
-              key={period.id.toString()}
+              key={period.id?.toString() + period.name}
               style={styles.periodCard}
-              onPress={() => handleDeletePeriod(period.id.toString())}
+              onPress={() => handleDeletePeriod(period.id?.toString())}
             >
               <Image
                 source={

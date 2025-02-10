@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import {logout} from '@/logic/store/userSlice';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export const HeaderUserInfo = () => {
   const dispatch = useAppDispatch();
@@ -18,7 +19,7 @@ export const HeaderUserInfo = () => {
       {!isAuthenticated ? (
         <View style={styles.buttonsContainer}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Заявка')}
+            onPress={() => navigation.navigate('Авторизация')}
             style={[styles.button, styles.infoButton]}
           >
             <Text style={styles.infoButtonText}>Войти</Text>
@@ -33,7 +34,7 @@ export const HeaderUserInfo = () => {
       ) : (
         <View style={styles.userContainer}>
           <Text style={styles.userText}>
-            {user?.first_name} / {user?.username}
+             {user?.username}
           </Text>
           <TouchableOpacity
             onPress={onLogout}

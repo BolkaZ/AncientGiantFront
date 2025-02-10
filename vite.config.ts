@@ -6,7 +6,7 @@ import checker from 'vite-plugin-checker';
 export default defineConfig({
   clearScreen: false,
   server: {
-    host: '172.16.0.2',
+    host: '192.168.0.13',
     // Tauri expects a fixed port, fail if that port is not available
     strictPort: true,
     // if the host Tauri is expecting is set, use it
@@ -16,5 +16,5 @@ export default defineConfig({
     target: 'chrome105'
   },
   base: "./",
-  plugins: [react(), checker({ typescript: false })],
+  plugins: [react(),mkcert(), checker({ typescript: false })],
 })

@@ -22,18 +22,19 @@ export const CatalogPage = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
 
-  // Получаем фильтр из Redux
   const filter = useAppSelector(state => state.filter);
 
-  // Получаем данные коллекции периодов, состояние загрузки, ошибки и информацию о заявке
   const { periods, loading, error, bidInfo } = useAppSelector(state => state.periodCollection);
   const { bid } = useAppSelector(state => state.bid);
 
-  // При изменении фильтра вызываем получение данных с небольшой задержкой (debounce)
   useEffect(() => {
-    // В мобильном приложении нет URL-параметров, поэтому просто вызываем запрос данных
     getData();
   }, [filter]);
+
+  useEffect(()=>{
+    console.log(bid?.id);
+    
+  },[bid])
 
   const getData = useDebouncedCallback(async () => {
     dispatch(fetchPeriodCollection({ search: filter.name }));
@@ -76,16 +77,15 @@ export const CatalogPage = () => {
             />
           </View>
         </View>
-
-        {/* Ссылка на заявку, если bid существует */}
-        {/*{bid?.id && (*/}
-        {/*  <TouchableOpacity*/}
-        {/*    style={styles.bidLink}*/}
-        {/*    onPress={() => navigation.navigate(dynamicLinks.userBid(bid.id))}*/}
-        {/*  >*/}
-        {/*    <Image style={styles.bidImage} source={Icon} />*/}
-        {/*  </TouchableOpacity>*/}
-        {/*)}*/}
+        {bid?.id && (
+         <TouchableOpacity
+           style={styles.bidLink}
+         onPress={() => navigation.navigate(`Заявка`,{bidId: bid.id})}>
+            <Image style={styles.bidImage} source={Icon} />
+            <Text>Заявка</Text>
+            
+          </TouchableOpacity>
+        )}
       </View>
 
       {/* Секция каталога */}
@@ -177,7 +177,8 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   cardsRow: {
-    flexDirection: 'row',
+    marginLeft: 85,
+    flexDirection: 'column',
     flexWrap: 'wrap',
     justifyContent: 'center',
     // Для отступов между карточками можно использовать margin внутри PeriodCard или здесь добавить отступы

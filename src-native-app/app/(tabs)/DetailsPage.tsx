@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { getMockPeriod } from '@/logic/store/periodSlice';
+import { fetchPeriod, getMockPeriod } from '@/logic/store/periodSlice';
 // Импортируем placeholder (пустое изображение)
 import Plug from '@/assets/images/img_empty-photo.png';
 
@@ -20,7 +20,7 @@ export const DetailPage = () => {
 
   useEffect(() => {
     if (id) {
-      dispatch(getMockPeriod(Number(id)));
+      dispatch(fetchPeriod(Number(id)));
     }
   }, [id]);
 

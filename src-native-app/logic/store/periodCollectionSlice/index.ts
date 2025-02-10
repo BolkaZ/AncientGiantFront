@@ -39,15 +39,18 @@ const periodsSlice = createSlice({
       })
       .addCase(fetchPeriodCollection.fulfilled, (state, action) => {
         state.loading = false;
+        console.log(action.payload);
         if(action.payload?.periods) {
           state.periods = action.payload?.periods;
           state.bidInfo = action.payload.bid_info
         }
       })
       .addCase(fetchPeriodCollection.rejected, (state,action) => {
+        console.log(action.error.code);
+        
         state.loading = false;
         state.periods = mockPeriods;
-        state.error = action.error.message || 'Ошибка призагрузке данных';
+        state.error = action.error.name || 'Ошибка призагрузке данных';
       });
   },
 
